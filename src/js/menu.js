@@ -1,47 +1,45 @@
-import Notiflix from 'notiflix';
-import { addProduct, isInCart } from './basket';
-import { fetchChicken, fetchProducts } from './api';
+// import Notiflix from "notiflix";
 
-const inputEl = document.querySelector('#search-form');
-const divPop = document.querySelector('.fetch-cards');
-const divChicken = document.querySelector('.fetch-cards-chicken');
+import { fetchChicken, fetchProducts } from "./api";
+import { addProduct, isInCart } from "./basket";
+
+const inputEl = document.querySelector("#search-form");
+const divPop = document.querySelector(".fetch-cards");
+const divChicken = document.querySelector(".fetch-cards-chicken");
 
 // const KEY_CART = 'cart_key';
 
 export function renderMenu() {
   fetchProducts()
-    .then(res => {
+    .then((res) => {
       const ulEl = markupProduct(res.results);
-      divPop.insertAdjacentElement('beforeend', ulEl);
+      divPop.insertAdjacentElement("beforeend", ulEl);
 
       // Notiflix.Loading.remove();
-      const btnAddArr = document.querySelectorAll('.add-btn');
-      btnAddArr.forEach(btnAdd =>
-        btnAdd.addEventListener('click', e => addToBasket(e, res.results))
+      const btnAddArr = document.querySelectorAll(".add-btn");
+      btnAddArr.forEach((btnAdd) =>
+        btnAdd.addEventListener("click", (e) => addToBasket(e, res.results))
       );
     })
-    .catch(error => {
-      Notiflix.Notify.failure(
-        'Oops! Something went wrong! Try reloading the page!'
-      );
+    .catch((error) => {
+      alert("Oops! Something went wrong! Try reloading the page!");
     })
     .finally(() => {});
 
   fetchChicken()
-    .then(res => {
+    .then((res) => {
       const ulEl = markupProduct(res.results);
-      divChicken.insertAdjacentElement('beforeend', ulEl);
+      divChicken.insertAdjacentElement("beforeend", ulEl);
 
       // Notiflix.Loading.remove();
-      const btnAddArr = document.querySelectorAll('.add-btn');
-      btnAddArr.forEach(btnAdd =>
-        btnAdd.addEventListener('click', e => addToBasket(e, res.results))
+      const btnAddArr = document.querySelectorAll(".add-btn");
+      btnAddArr.forEach((btnAdd) =>
+        btnAdd.addEventListener("click", (e) => addToBasket(e, res.results))
       );
     })
-    .catch(error => {
-      Notiflix.Notify.failure(
-        'Oops! Something went wrong! Try reloading the page!'
-      );
+    .catch((error) => {
+      // Notiflix.Notify.failure(
+      alert("Oops! Something went wrong! Try reloading the page!");
     })
     .finally(() => {});
 
@@ -58,15 +56,15 @@ export function renderMenu() {
   }
 
   function updateBtn(btn) {
-    btn.innerHTML = 'in cart';
+    btn.innerHTML = "in cart";
   }
 
   function markupProduct(results) {
-    const ulEl = document.createElement('ul');
-    ulEl.classList.add('card-container-list');
+    const ulEl = document.createElement("ul");
+    ulEl.classList.add("card-container-list");
     const markup = results
       .map(({ img, name, category, price, _id }) => {
-        category = category.replace(/_/g, ' ');
+        category = category.replace(/_/g, " ");
         return `<li class="card-item">
             <img
               class="cards-img"
@@ -90,8 +88,8 @@ export function renderMenu() {
             </div>
           </li>`;
       })
-      .join('');
-    ulEl.insertAdjacentHTML('beforeend', markup);
+      .join("");
+    ulEl.insertAdjacentHTML("beforeend", markup);
     return ulEl;
   }
 }
