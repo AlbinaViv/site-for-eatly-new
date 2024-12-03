@@ -1,47 +1,57 @@
-// import Notiflix from "notiflix";
-
 import { fetchChicken, fetchProducts } from "./api";
 import { addProduct, isInCart } from "./basket";
+import Notiflix from "notiflix";
 
 const inputEl = document.querySelector("#search-form");
 const divPop = document.querySelector(".fetch-cards");
 const divChicken = document.querySelector(".fetch-cards-chicken");
 
-// const KEY_CART = 'cart_key';
-
 export function renderMenu() {
+  Notiflix.Loading.init({
+    svgColor: "#5c4eae", // Фіолетовий колір
+  });
+
+  Notiflix.Loading.standard("Loading...");
+
   fetchProducts()
     .then((res) => {
       const ulEl = markupProduct(res.results);
       divPop.insertAdjacentElement("beforeend", ulEl);
 
-      // Notiflix.Loading.remove();
       const btnAddArr = document.querySelectorAll(".add-btn");
       btnAddArr.forEach((btnAdd) =>
         btnAdd.addEventListener("click", (e) => addToBasket(e, res.results))
       );
     })
     .catch((error) => {
-      alert("Oops! Something went wrong! Try reloading the page!");
+      Notiflix.Notify.failure(
+        "Oops! Something went wrong! Try reloading the page!"
+      );
     })
-    .finally(() => {});
+    .finally(() => {
+      // Stop the loader after processing
+      Notiflix.Loading.remove();
+    });
 
   fetchChicken()
     .then((res) => {
       const ulEl = markupProduct(res.results);
       divChicken.insertAdjacentElement("beforeend", ulEl);
 
-      // Notiflix.Loading.remove();
       const btnAddArr = document.querySelectorAll(".add-btn");
       btnAddArr.forEach((btnAdd) =>
         btnAdd.addEventListener("click", (e) => addToBasket(e, res.results))
       );
     })
     .catch((error) => {
-      // Notiflix.Notify.failure(
-      alert("Oops! Something went wrong! Try reloading the page!");
+      Notiflix.Notify.failure(
+        "Oops! Something went wrong! Try reloading the page!"
+      );
     })
-    .finally(() => {});
+    .finally(() => {
+      // Stop the loader after processing
+      Notiflix.Loading.remove();
+    });
 
   function addToBasket(e, results) {
     const { id } = e.target.dataset;

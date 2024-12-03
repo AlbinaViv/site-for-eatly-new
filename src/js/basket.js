@@ -1,6 +1,6 @@
 // btnDeleteAll.classList.add('is-hidden');
 
-export const KEY_CART = 'cart_key';
+export const KEY_CART = "cart_key";
 
 export function getCart() {
   // localStorage.getItem(CART)?? [];
@@ -22,9 +22,9 @@ export function addProduct(product) {
 }
 
 export function deleteProduct(id) {
-  console.log('kk');
+  console.log("kk");
   const shoppingCart2 = getCart();
-  const newShoppingCart = shoppingCart2.filter(product => product._id !== id);
+  const newShoppingCart = shoppingCart2.filter((product) => product._id !== id);
   localStorage.setItem(KEY_CART, JSON.stringify(newShoppingCart));
 }
 
@@ -34,5 +34,5 @@ export function removeAll() {
 
 export function isInCart(id) {
   const shoppingCart = getCart();
-  return shoppingCart.some(product => product._id === id);
+  return shoppingCart.some((product) => product._id === id);
 }
